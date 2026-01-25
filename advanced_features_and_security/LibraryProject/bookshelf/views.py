@@ -1,11 +1,14 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import permission_required
 from django.http import HttpResponse
+from .models import Book
 
 # Create your views here.
-from django.contrib.auth.decorators import permission_required
-from django.http import HttpResponse
-
+@permission_required("bookshelf.can_view", raise_exception=True)
+def book_list(request):
+    books = Book.objects.all()
+    output = ", ".join(book.title for book in books)
+    return HttpResponse(output)
 
 @permission_required("bookshelf.can_view", raise_exception=True)
 def can_view_books(request):
