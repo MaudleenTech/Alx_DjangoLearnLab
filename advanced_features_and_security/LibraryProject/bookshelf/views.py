@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import permission_required
 from django.http import HttpResponse
 from .models import Book
+from .forms import ExampleForm
 
 # Create your views here.
 @permission_required("bookshelf.can_view", raise_exception=True)
@@ -41,3 +42,12 @@ def can_edit_book(request):
 @permission_required("bookshelf.can_delete", raise_exception=True)
 def can_delete_book(request):
     return HttpResponse("Permission check passed: can_delete")
+
+def form_example(request):
+    form = ExampleForm(request.POST or None)
+
+    if request.method == "POST" and form.is_valid():
+        # safe validated input (prevents injection-style issues)
+        return render(request, "bookshelf/form_example.html", {"form": form})
+
+    return render(request, "bookshelf/form_example.html", {"form": form})
