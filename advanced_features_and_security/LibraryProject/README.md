@@ -1,21 +1,18 @@
-# LibraryProject
+## Permissions & Groups Setup (Task 1)
 
-This is a basic Django project created for the ALX Django Learn Lab.
+### Custom permissions (relationship_app.Book)
+- can_view
+- can_create
+- can_edit
+- can_delete
 
-## Project Description
-This project demonstrates how to:
-- Install Django
-- Create a Django project
-- Run the development server
-- Understand Django project structure
+### Groups (created in Django admin)
+- Viewers: can_view
+- Editors: can_view, can_create, can_edit
+- Admins: can_view, can_create, can_edit, can_delete
 
-## How to Run the Project
-
-1. Navigate into the project folder:
-   cd LibraryProject
-
-2. Run the development server:
-   python manage.py runserver
-
-3. Open your browser and go to:
-   http://127.0.0.1:8000/
+### Protected endpoints
+- /perm/view/  -> requires can_view
+- /perm/create/ -> requires can_create
+- /perm/edit/ -> requires can_edit
+- /perm/delete/ -> requires can_delete

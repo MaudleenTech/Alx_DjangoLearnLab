@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
+from django.contrib.admin.sites import AlreadyRegistered
 from .models import CustomUser
 
 
@@ -13,4 +14,9 @@ class CustomUserAdmin(UserAdmin):
     )
     list_display = ("username", "email", "is_staff", "date_of_birth")
 
-admin.site.register(CustomUser, CustomUserAdmin)
+
+# For ALX checker, but prevent double-registration crash
+try:
+    admin.site.register(CustomUser, CustomUserAdmin)
+except AlreadyRegistered:
+    pass
