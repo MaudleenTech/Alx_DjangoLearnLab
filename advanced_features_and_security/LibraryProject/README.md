@@ -16,3 +16,23 @@
 - /perm/create/ -> requires can_create
 - /perm/edit/ -> requires can_edit
 - /perm/delete/ -> requires can_delete
+
+
+## Security Best Practices (Task 2)
+
+### Settings applied (settings.py)
+- DEBUG = False
+- SECURE_BROWSER_XSS_FILTER = True
+- SECURE_CONTENT_TYPE_NOSNIFF = True
+- X_FRAME_OPTIONS = "DENY"
+- CSRF_COOKIE_SECURE = True
+- SESSION_COOKIE_SECURE = True
+
+### CSRF protection
+- Forms include `{% csrf_token %}` in templates.
+
+### SQL injection prevention
+- Used Django ORM filters (e.g., title__icontains) instead of raw SQL or string formatting.
+
+### Content Security Policy (CSP)
+- Added middleware that sets: `Content-Security-Policy: default-src 'self'`
