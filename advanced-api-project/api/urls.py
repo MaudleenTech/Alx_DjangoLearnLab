@@ -18,8 +18,8 @@ urlpatterns = [
     path("books/create/", BookCreateView.as_view(), name="book-create"),
 
     # /books/<pk>/update/ -> update a book (auth required)
-    path("books/<int:pk>/update/", BookUpdateView.as_view(), name="book-update"),
+    path("books/update/<int:pk>/", BookUpdateView.as_view(), name="book-update"),
 
     # /books/<pk>/delete/ -> delete a book (auth required)
-    path("books/<int:pk>/delete/", BookDeleteView.as_view(), name="book-delete"),
+    path("books/delete/<int:pk>/", BookDeleteView.as_view(), name="book-delete"),
 ]
