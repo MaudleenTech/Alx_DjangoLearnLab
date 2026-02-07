@@ -88,6 +88,24 @@ Create, update, and delete endpoints use IsAuthenticated, restricting access to 
 
 Validation is handled at the serializer level to ensure data integrity.
 
+## Filtering, Searching, and Ordering (Task 2)
+
+### Filtering
+Filter books using query parameters:
+- `/api/books/?title=Americanah`
+- `/api/books/?publication_year=2013`
+- `/api/books/?author=1`
+
+### Search
+Search by book title or author name:
+- `/api/books/?search=chimamanda`
+
+### Ordering
+Order results by fields like `title` or `publication_year`:
+- `/api/books/?ordering=title`
+- `/api/books/?ordering=-publication_year`
+
+
 Technologies Used
 
 Python
