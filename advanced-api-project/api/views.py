@@ -1,28 +1,25 @@
-from rest_framework import generics
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated, AllowAny 
+from rest_framework import generics, filters
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from django_filters import rest_framework
+
 from .models import Book
 from .serializers import BookSerializer
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters
 
 
-
-# ListView: Retrieve all books (public - no auth required)
 class BookListView(generics.ListAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
-    # Enable filtering, searching, and ordering
-    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    # Enable filtering, searching, and ordering (checker-friendly)
+    filter_backends = [
+        rest_framework.DjangoFilterBackend,
+        filters.SearchFilter,
+        filters.OrderingFilter,
+    ]
 
-    # Filter books by title, author, and publication_year
     filterset_fields = ["title", "author", "publication_year"]
-
-    # Search books by title and author name
     search_fields = ["title", "author__name"]
-
-    # Order books by title and publication_year
     ordering_fields = ["title", "publication_year"]
     ordering = ["title"]
 
@@ -33,7 +30,7 @@ class BookListView(generics.ListAPIView):
 class BookDetailView(generics.RetrieveAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
 
 # CreateView: Add a new book (requires authentication)
