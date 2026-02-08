@@ -121,8 +121,9 @@ To run the API unit tests:
 
 ```bash
 python manage.py test api
+```
 
-Technologies Used
+## Technologies Used
 
 Python
 
@@ -134,38 +135,39 @@ SQLite (development database)
 
 Git & GitHub
 
-How to Run the Project Locally
+## How to Run the Project Locally
 
 Navigate to the project directory:
 
-cd advanced-api-project
+```cd advanced-api-project```
 
 
 Activate the virtual environment:
 
-source venv/Scripts/activate
+```source venv/Scripts/activate```
 
 
 Run migrations:
 
-python manage.py migrate
+```python manage.py migrate```
 
 
 Create a superuser:
 
-python manage.py createsuperuser
+```python manage.py createsuperuser```
 
 
 Start the development server:
 
-python manage.py runserver
+```python manage.py runserver```
 
 
 Access the API at:
 
 http://127.0.0.1:8000/api/
 
-Author
 
-Maudleen Imonirioma
+## Author
+
+## Maudleen Imonirioma
 ALX Back-End Engineering Program
