@@ -42,15 +42,15 @@ class BookAPIViewTests(APITestCase):
 
     def test_list_books_public(self):
         """Unauthenticated users can list books."""
-        res = self.client.get(self.list_url)
-        self.assertEqual(res.status_code, status.HTTP_200_OK)
-        self.assertTrue(len(res.data) >= 2)
+        response = self.client.get(self.list_url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertTrue(len(response.data) >= 2)
 
     def test_retrieve_book_public(self):
         """Unauthenticated users can retrieve a single book."""
-        res = self.client.get(self.detail_url)
-        self.assertEqual(res.status_code, status.HTTP_200_OK)
-        self.assertEqual(res.data["title"], self.book1.title)
+        response = self.client.get(self.detail_url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["title"], self.book1.title)
 
     # ---------- CREATE (Auth required) ----------
 
@@ -61,8 +61,8 @@ class BookAPIViewTests(APITestCase):
             "publication_year": 2003,
             "author": self.author.id,
         }
-        res = self.client.post(self.create_url, payload, format="json")
-        self.assertIn(res.status_code, [status.HTTP_401_UNAUTHORIZED, status.HTTP_403_FORBIDDEN])
+        response = self.client.post(self.create_url, payload, format="json")
+        self.assertIn(response.status_code, [status.HTTP_401_UNAUTHORIZED, status.HTTP_403_FORBIDDEN])
 
     def test_create_book_authenticated_success(self):
         """Authenticated users can create books."""
@@ -72,8 +72,8 @@ class BookAPIViewTests(APITestCase):
             "publication_year": 2003,
             "author": self.author.id,
         }
-        res = self.client.post(self.create_url, payload, format="json")
-        self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+        response = self.client.post(self.create_url, payload, format="json")
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertTrue(Book.objects.filter(title="Purple Hibiscus").exists())
 
     # ---------- UPDATE (Auth required) ----------
@@ -85,8 +85,8 @@ class BookAPIViewTests(APITestCase):
             "publication_year": 2006,
             "author": self.author.id,
         }
-        res = self.client.put(self.update_url, payload, format="json")
-        self.assertIn(res.status_code, [status.HTTP_401_UNAUTHORIZED, status.HTTP_403_FORBIDDEN])
+        response = self.client.put(self.update_url, payload, format="json")
+        self.assertIn(response.status_code, [status.HTTP_401_UNAUTHORIZED, status.HTTP_403_FORBIDDEN])
 
     def test_update_book_authenticated_success(self):
         """Authenticated users can update books."""
@@ -96,8 +96,8 @@ class BookAPIViewTests(APITestCase):
             "publication_year": 2006,
             "author": self.author.id,
         }
-        res = self.client.put(self.update_url, payload, format="json")
-        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        response = self.client.put(self.update_url, payload, format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         self.book1.refresh_from_db()
         self.assertEqual(self.book1.title, "Half of a Yellow Sun (Updated)")
@@ -106,14 +106,14 @@ class BookAPIViewTests(APITestCase):
 
     def test_delete_book_unauthenticated_denied(self):
         """Unauthenticated users should not be able to delete books."""
-        res = self.client.delete(self.delete_url)
-        self.assertIn(res.status_code, [status.HTTP_401_UNAUTHORIZED, status.HTTP_403_FORBIDDEN])
+        response = self.client.delete(self.delete_url)
+        self.assertIn(response.status_code, [status.HTTP_401_UNAUTHORIZED, status.HTTP_403_FORBIDDEN])
 
     def test_delete_book_authenticated_success(self):
         """Authenticated users can delete books."""
         self.client.force_authenticate(user=self.user)
-        res = self.client.delete(self.delete_url)
-        self.assertIn(res.status_code, [status.HTTP_200_OK, status.HTTP_204_NO_CONTENT])
+        response = self.client.delete(self.delete_url)
+        self.assertIn(response.status_code, [status.HTTP_200_OK, status.HTTP_204_NO_CONTENT])
 
         self.assertFalse(Book.objects.filter(pk=self.book1.pk).exists())
 
@@ -121,21 +121,21 @@ class BookAPIViewTests(APITestCase):
 
     def test_filter_by_publication_year(self):
         """Filter books by publication_year using query params."""
-        res = self.client.get(f"{self.list_url}?publication_year=2013")
-        self.assertEqual(res.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(res.data), 1)
-        self.assertEqual(res.data[0]["title"], "Americanah")
+        response = self.client.get(f"{self.list_url}?publication_year=2013")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]["title"], "Americanah")
 
     def test_search_by_title_or_author(self):
         """Search books using search param (title or author name)."""
-        res = self.client.get(f"{self.list_url}?search=Americanah")
-        self.assertEqual(res.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(res.data), 1)
-        self.assertEqual(res.data[0]["title"], "Americanah")
+        response = self.client.get(f"{self.list_url}?search=Americanah")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]["title"], "Americanah")
 
     def test_ordering_by_publication_year_desc(self):
         """Order results by publication_year descending."""
-        res = self.client.get(f"{self.list_url}?ordering=-publication_year")
-        self.assertEqual(res.status_code, status.HTTP_200_OK)
-        self.assertTrue(len(res.data) >= 2)
-        self.assertGreaterEqual(res.data[0]["publication_year"], res.data[1]["publication_year"])
+        response = self.client.get(f"{self.list_url}?ordering=-publication_year")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertTrue(len(response.data) >= 2)
+        self.assertGreaterEqual(response.data[0]["publication_year"], response.data[1]["publication_year"])
