@@ -1,8 +1,16 @@
 {% extends "blog/base.html" %}
-
 {% block title %}Login{% endblock %}
 
 {% block content %}
 <h1>Login</h1>
-<p>This is a placeholder page for login.</p>
+
+{% if form.errors %}
+  <p style="color: red;">Invalid username or password.</p>
+{% endif %}
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Login</button>
+</form>
 {% endblock %}

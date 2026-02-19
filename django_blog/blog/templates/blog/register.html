@@ -1,8 +1,12 @@
 {% extends "blog/base.html" %}
-
 {% block title %}Register{% endblock %}
 
 {% block content %}
 <h1>Register</h1>
-<p>This is a placeholder page for registration.</p>
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Create account</button>
+</form>
 {% endblock %}
