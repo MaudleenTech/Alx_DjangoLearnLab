@@ -4,10 +4,15 @@
 {% block content %}
 <h1>Search Results</h1>
 
+<form method="get" action="{% url 'search' %}">
+  <input type="text" name="q" placeholder="Search..." value="{{ query }}">
+  <button type="submit">Search</button>
+</form>
+
+<hr>
+
 {% if query %}
-  <p>Showing results for: <strong>{{ query }}</strong></p>
-{% else %}
-  <p>Please enter a search term.</p>
+  <p>Results for: <strong>{{ query }}</strong></p>
 {% endif %}
 
 {% for post in posts %}
@@ -15,7 +20,9 @@
   <p>{{ post.content|truncatechars:150 }}</p>
 {% empty %}
   {% if query %}
-    <p>No matching posts found.</p>
+    <p>No results found.</p>
+  {% else %}
+    <p>Type something to search.</p>
   {% endif %}
 {% endfor %}
 {% endblock %}

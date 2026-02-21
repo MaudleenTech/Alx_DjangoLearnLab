@@ -11,6 +11,7 @@ from .models import Post
 from .forms import PostForm
 from .models import Post, Comment
 from .forms import CommentForm
+from django.db.models import Q
 
 def home(request):
     return render(request, "blog/index.html")
@@ -136,3 +137,15 @@ class TagPostListView(ListView):
     def get_queryset(self):
         return Post.objects.filter(tags__slug=self.kwargs["tag_slug"])
     
+def search(request):
+    query = request.GET.get("q", "").strip()
+
+    posts = Post.objects.none()
+    if query:
+        posts = Post.objects.filter(
+            Q(title__icontains=query) |
+            Q(content__icontains=query) |
+            Q(tags__name__icontains=query)
+        ).distinct()
+
+    return render(request, "blog/search_results.html", {"posts": posts, "query": query})
