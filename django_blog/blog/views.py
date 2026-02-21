@@ -2,7 +2,6 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render, redirect
 from .forms import RegisterForm, ProfileForm
-from django.shortcuts import render
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse, reverse_lazy
@@ -12,8 +11,6 @@ from .models import Post
 from .forms import PostForm
 from .models import Post, Comment
 from .forms import CommentForm
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect
 
 def home(request):
     return render(request, "blog/index.html")
@@ -59,7 +56,7 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
     template_name = "blog/comment_form.html"
 
     def form_valid(self, form):
-        post = get_object_or_404(Post, pk=self.kwargs["post_id"])
+        post = get_object_or_404(Post, pk=self.kwargs["pk"])
         form.instance.post = post
         form.instance.author = self.request.user
         return super().form_valid(form)
@@ -109,8 +106,8 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         post = self.get_object()
         return post.author == self.request.user
     
-    class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-     model = Comment
+class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Comment
     form_class = CommentForm
     template_name = "blog/comment_form.html"
 
@@ -130,4 +127,12 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def get_success_url(self):
         return reverse("post_detail", kwargs={"pk": self.object.post.pk})
+    
+class TagPostListView(ListView):
+    model = Post
+    template_name = "blog/tag_posts.html"
+    context_object_name = "posts"
+
+    def get_queryset(self):
+        return Post.objects.filter(tags__slug=self.kwargs["tag_slug"])
     
