@@ -129,13 +129,14 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def get_success_url(self):
         return reverse("post_detail", kwargs={"pk": self.object.post.pk})
     
-class TagPostListView(ListView):
+class PostByTagListView(ListView):
     model = Post
     template_name = "blog/tag_posts.html"
     context_object_name = "posts"
 
     def get_queryset(self):
-        return Post.objects.filter(tags__slug=self.kwargs["tag_slug"])
+        tag = self.kwargs.get("tag")
+        return Post.objects.filter(tags__name__icontains=tag)
     
 def search(request):
     query = request.GET.get("q", "").strip()
