@@ -12,3 +12,12 @@
 
 <p><a href="{% url 'post_list' %}">Cancel</a></p>
 {% endblock %}
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['title', 'content', 'tags']
+
+        widgets = {
+            'tags': TagWidget(),
+        }
