@@ -42,6 +42,10 @@ The application is being developed progressively to simulate real-world backend 
 - SQLite (default)
 - PostgreSQL-ready configuration
 - HTML / CSS
+-Framework: Django
+-Database: SQLite (Development)
+-Tagging: django-taggit
+-UI: Custom CSS with responsive design
 - Git & GitHub
 
 ---
@@ -84,3 +88,24 @@ Handled using Django’s `LogoutView`.
 Authenticated users can update their username and email address.
 
 ---
+Installation & Setup
+Clone the repository:
+
+git clone https://github.com/MaudleenTech/Alx_DjangoLearnLab.git
+cd Alx_DjangoLearnLab/django_blog
+Install dependencies:
+
+pip install django django-taggit
+Run Migrations:
+
+python manage.py makemigrations
+python manage.py migrate
+Start the server:
+
+python manage.py runserver
+Access the app: Open http://127.0.0.1:8000 in your browser.
+
+Documentation
+Comment System Guide
+License
+MIT License
