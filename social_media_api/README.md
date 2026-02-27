@@ -1,4 +1,4 @@
-## 📘 Social Media API
+# 📘 Social Media API
 
 A fully functional Social Media REST API built with Django and Django REST Framework (DRF).
 
@@ -14,8 +14,8 @@ Pagination & filtering
 
 Secure permission enforcement
 
-## 🚀 Features
-# 🔐 Authentication System
+# 🚀 Features
+## 🔐 Authentication System
 
 Custom User Model (extends AbstractUser)
 
@@ -25,7 +25,7 @@ Secure login & registration endpoints
 
 Profile management endpoint
 
-# 📝 Posts
+## 📝 Posts
 
 Create, retrieve, update, delete posts
 
@@ -35,7 +35,7 @@ Paginated post listing
 
 Search posts by title or content
 
-# 💬 Comments
+## 💬 Comments
 
 Create, retrieve, update, delete comments
 
@@ -43,7 +43,7 @@ Linked to posts
 
 Only comment owners can edit/delete
 
-# 🏗️ Tech Stack
+## 🏗️ Tech Stack
 
 Python 3.x
 
@@ -57,7 +57,7 @@ Token Authentication
 
 Django Filters
 
-# 📂 Project Structure
+## 📂 Project Structure
 social_media_api/
 │
 ├── accounts/          # Authentication & User management
@@ -65,7 +65,7 @@ social_media_api/
 ├── social_media_api/  # Project settings
 └── manage.py
 
-# ⚙️ Installation & Setup
+## ⚙️ Installation & Setup
 1️⃣ Clone Repository
 git clone github.com/MaudleenTech/Alx_DjangoLearnLab.git
 cd social_media_api
@@ -89,9 +89,9 @@ API base URL:
 
 http://127.0.0.1:8000/api/
 
-# 🔐 Authentication Flow
+## 🔐 Authentication Flow
 
-# 🧑 Register
+## 🧑 Register
 
 POST /api/accounts/register/
 
@@ -121,12 +121,12 @@ Response:
   "token": "abc123xyz..."
 }
 
-# 🔓 Access Protected Routes
+## 🔓 Access Protected Routes
 
 Authorization: 
 
-# 📝 Posts API
-# 📌 Create Post
+## 📝 Posts API
+## 📌 Create Post
 
 POST /api/posts/
 
@@ -146,7 +146,7 @@ Paginated response:
   "previous": null,
   "results": [...]
 }
-# 🔍 Search Posts
+## 🔍 Search Posts
 GET /api/posts/?search=first
 
 Searches by:
@@ -155,20 +155,20 @@ Title
 
 Content
 
-# ✏️ Update Post
+## ✏️ Update Post
 
 PUT /api/posts/{id}/
 
 Only the post author can update.
 
-# ❌ Delete Post
+## ❌ Delete Post
 
 DELETE /api/posts/{id}/
 
 Only the post author can delete.
 
 
-# 💬 Comments API
+## 💬 Comments API
 ➕ Create Comment
 
 POST /api/comments/
@@ -177,7 +177,7 @@ POST /api/comments/
   "post": 1,
   "content": "Nice post!"
 }
-# 📄 List Comments
+## 📄 List Comments
 
 GET /api/comments/
 
@@ -187,11 +187,11 @@ PUT /api/comments/{id}/
 
 Only comment author allowed.
 
-# ❌ Delete Comment
+## ❌ Delete Comment
 
 DELETE /api/comments/{id}/
 
-# 🔐 Permissions
+## 🔐 Permissions
 Action	Auth Required	Owner Required
 View posts	❌	❌
 Create post	✅	❌
@@ -217,7 +217,7 @@ Ownership-based permission checks
 
 Passwords hashed securely by Django
 
-# 🧪 Testing
+## 🧪 Testing
 
 Tested using:
 
@@ -225,7 +225,7 @@ Django REST Framework Browsable API
 
 Postman
 
-# 📌 Future Improvements
+## 📌 Future Improvements
 
 Follow system
 
@@ -241,7 +241,7 @@ JWT authentication
 
 Rate limiting
 
-# 👩🏽‍💻 Author
+## 👩🏽‍💻 Author
 
 Maudleen Imonirioma
 ALX Software Engineering Program
