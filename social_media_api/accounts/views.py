@@ -1,8 +1,13 @@
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
+from django.contrib.auth import get_user_model
 from .serializers import RegisterSerializer, LoginSerializer, ProfileSerializer
+from rest_framework.decorators import api_view
+from django.shortcuts import get_object_or_404
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+
 
 class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
@@ -40,10 +45,35 @@ class LoginView(APIView):
             status=status.HTTP_200_OK
         )
 
-
 class ProfileView(generics.RetrieveUpdateAPIView):
     serializer_class = ProfileSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+User = get_user_model()
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def follow_user(request, user_id):
+    target = get_object_or_404(User, id=user_id)
+
+    if target == request.user:
+        return Response({"detail": "You cannot follow yourself."}, status=400)
+
+    request.user.following.add(target)
+    return Response({"detail": f"You are now following {target.username}."}, status=200)
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def unfollow_user(request, user_id):
+    target = get_object_or_404(User, id=user_id)
+
+    if target == request.user:
+        return Response({"detail": "You cannot unfollow yourself."}, status=400)
+
+    request.user.following.remove(target)
+    return Response({"detail": f"You unfollowed {target.username}."}, status=200)    
 
     def get_object(self):
         return self.request.user

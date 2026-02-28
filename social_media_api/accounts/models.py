@@ -5,12 +5,12 @@ class User(AbstractUser):
     bio = models.TextField(blank=True)
     profile_picture = models.ImageField(upload_to="profiles/", blank=True, null=True)
 
-    # Users can follow other users
-    followers = models.ManyToManyField(
+    # Users I follow
+    following = models.ManyToManyField(
         "self",
         symmetrical=False,
-        related_name="following",
-        blank=True,
+        related_name="followers",
+        blank=True
     )
 
     def __str__(self):
