@@ -71,3 +71,5 @@ def unlike_post(request, pk):
         return Response({"detail": "You haven't liked this post"}, status=status.HTTP_400_BAD_REQUEST)
 
     return Response({"detail": "Post unliked"}, status=status.HTTP_200_OK)
+
+    generics.get_object_or_404(Post, pk=pk), Notification.objects.create
